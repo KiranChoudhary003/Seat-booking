@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Wrapper from "./style"
-import { QRCodeCanvas } from "qrcode.react"
+import { useNavigate } from "react-router"
+import star from "./star.png"
 
 const Form = () => {
   const [search, setSearch] = useState("")
@@ -44,13 +45,10 @@ const Form = () => {
   )
 
   const [userData, setUserData] = useState({
-    name: "",
-    email: "",
     contactNo: "",
     institute: "",
   })
 
-  const [qrCode, setQrCode] = useState("");
 
   const handleChange = (e) => {
     setUserData({
@@ -68,68 +66,46 @@ const Form = () => {
     setSearch("");
   }
 
+  const navigate = useNavigate()
+
+  const seatBooking = () => {
+    navigate("/seatBooking", { state : userData})
+  }
+
   const handleSubmit = async () => {
-    if (!userData.name || !userData.email || !userData.contactNo || !userData.institute) {
-      alert("Please fill in all the fields before submitting.");
-      return;
-    }
-
-    const qrData = JSON.stringify(userData);
-    setQrCode(qrData); // Set QR Code after successful submission
-
-    try {
-      const response = await fetch("http://localhost:5000/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-
-      const result = await response.json();
-      console.log(result);
-      alert("Booking successful!");
-    } catch (error) {
-      console.error("Error submitting booking:", error);
-    }
+    if (!userData.contactNo || !userData.institute) {
+          alert("Please fill in all the fields before submitting.");
+          return;
+        }
   }
 
   return (
     <Wrapper>
+      <h1>The Codeup Show</h1>
       <div className="seat-book-form">
         <h2>Seat Book Registration Form</h2>
         <div className="details">
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Name*"
-            value={userData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Email*"
-            value={userData.email}
-            onChange={handleChange}
-            required
-          />
+          <div className="user-info">
+            <span>Contact Number</span>
+            <img src={star} alt="Star" />
+          </div>
           <input
             id="contactNo"
             name="contactNo"
             type="text"
-            placeholder="Contact No.*"
             value={userData.contactNo}
             onChange={handleChange}
             pattern="[0-9]{10}"
             required
           />
+          <div className="user-info">
+            <span>Institute</span>
+            <img src={star} alt="Star" />
+          </div>
           <input
             id="institute"
             name="institute"
             type="text"
-            placeholder="Institute*"
             value={selectedInstitute || search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -147,15 +123,26 @@ const Form = () => {
             </ul>
           )}
 
-          <button id="submit" onClick={handleSubmit}>Submit</button>
+          <input id="submit"
+            type="button"
+            name = "Submit"
+            value = "Submit"
+            required
+            onClick={() => {
+              handleSubmit()
+              if (userData.contactNo && userData.institute) {
+                seatBooking()
+              }
+            }}          />
+          {/* <button id="submit" onClick={handleSubmit}>Submit</button> */}
         </div>
 
-        {qrCode && (
+        {/* {qrCode && (
           <div className="qr-code">
             <h3>QR Code</h3>
             <QRCodeCanvas value={qrCode} size={200} />
           </div>
-        )}
+        )} */}
       </div>
     </Wrapper>
   )
