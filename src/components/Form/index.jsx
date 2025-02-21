@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import Wrapper from "./style";
-import { useNavigate } from "react-router";
-import star from "./star.png";
+import React, { useState } from "react"
+import Wrapper from "./style"
+import { useNavigate } from "react-router"
+import star from "./star.png"
 
 const Form = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
   const [userData, setUserData] = useState({
     contactNo: "",
     institute: "",
-  });
+  })
 
   const institutes = [
     "Global Institute of Technology(GIT)",
@@ -41,43 +41,43 @@ const Form = () => {
     "Vivekananda Global University",
     "Poddar Group of Institutions",
     "Rajdhani Engineering College",
-  ];
+  ].sort()
 
   const filteredInstitutes = institutes.filter((inst) =>
     inst.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
 
   const handleInstituteChange = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    setUserData({ ...userData, institute: value });
-  };
+    const value = e.target.value
+    setSearch(value)
+    setUserData({ ...userData, institute: value })
+  }
 
   const handleInstituteSelect = (inst) => {
-    setSearch(inst);
-    setUserData({ ...userData, institute: inst });
-  };
+    setUserData({ ...userData, institute: inst })
+    setSearch("")
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const seatBooking = () => {
-    navigate("/seatBooking", { state: userData });
-  };
+    navigate("/seatBooking", { state: userData })
+  }
 
   const handleSubmit = () => {
     if (!userData.contactNo || !userData.institute) {
-      alert("Please fill in all the fields before submitting.");
-      return;
+      alert("Please fill in all the fields before submitting.")
+      return
     }
-    seatBooking();
-  };
+    seatBooking()
+  }
 
   return (
     <Wrapper>
@@ -85,7 +85,6 @@ const Form = () => {
       <div className="seat-book-form">
         <h2>Seat Book Registration Form</h2>
         <div className="details">
-          {/* Contact Number */}
           <div className="user-info">
             <span>Contact Number</span>
             <img src={star} alt="Star" />
@@ -100,7 +99,6 @@ const Form = () => {
             required
           />
 
-          {/* Institute Selection */}
           <div className="user-info">
             <span>Institute</span>
             <img src={star} alt="Star" />
@@ -109,7 +107,7 @@ const Form = () => {
             id="institute"
             name="institute"
             type="text"
-            value={search}
+            value={userData.institute}
             onChange={handleInstituteChange}
             required
           />
@@ -123,7 +121,6 @@ const Form = () => {
             </ul>
           )}
 
-          {/* Submit Button */}
           <input
             id="submit"
             type="button"
@@ -135,7 +132,7 @@ const Form = () => {
         </div>
       </div>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Form;
+export default Form
