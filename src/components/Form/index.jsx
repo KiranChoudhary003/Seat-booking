@@ -74,10 +74,22 @@ const Form = () => {
   const handleSubmit = () => {
     if (!userData.contactNo || !userData.institute) {
       alert("Please fill in all the fields before submitting.")
+      return;
+    }
+  
+    const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || []
+  
+    if (registeredUsers.includes(userData.contactNo)) {
+      alert("You have already registered! Registration cannot be processed further.")
       return
     }
+  
+    registeredUsers.push(userData.contactNo);
+    localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers))
+  
     seatBooking()
   }
+  
 
   return (
     <Wrapper>
