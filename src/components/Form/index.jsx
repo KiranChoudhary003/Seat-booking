@@ -133,16 +133,8 @@ const Form = () => {
               if (userData.contactNo && userData.institute) {
                 seatBooking()
               }
-            }}          />
-          {/* <button id="submit" onClick={handleSubmit}>Submit</button> */}
+            }} />
         </div>
-
-        {/* {qrCode && (
-          <div className="qr-code">
-            <h3>QR Code</h3>
-            <QRCodeCanvas value={qrCode} size={200} />
-          </div>
-        )} */}
       </div>
     </Wrapper>
   )

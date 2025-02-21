@@ -45,8 +45,8 @@ color : white;
 .user-info{ 
     display : flex;
     img{
-        width : 3%;
-        height : 3%;
+        width : 2%;
+        height : 2%;
     }
 }
 }

@@ -2,16 +2,25 @@ import styled from "styled-components";
 
 const Wrapper = styled.section`
 width : 100vw;
-height : 100vh;
+min-height : 100vh;
 margin : 10px;
 color : white;
+overflow : auto;
 
 .logo{
-img{
+display : flex;
+justify-content : space-between;
+}
+
+.logoImage{
 width : 50%;
 height : auto;
 }
 
+.download{
+width : 20px;
+height : 20px;
+margin : 40px 30px 0 0;
 }
 
 .seat-confirmation{
@@ -30,6 +39,8 @@ height : auto;
 .details{
     margin-top : 50px;
     display : flex;
+    align-text : center;
+    justify-content : center;
     img{
         width : 200px;
         height : auto;
