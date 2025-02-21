@@ -1,11 +1,14 @@
-import React, { useState } from "react"
-import Wrapper from "./style"
-import { useNavigate } from "react-router"
-import star from "./star.png"
+import React, { useState } from "react";
+import Wrapper from "./style";
+import { useNavigate } from "react-router";
+import star from "./star.png";
 
 const Form = () => {
-  const [search, setSearch] = useState("")
-  const [selectedInstitute, setSelectedInstitute] = useState("")
+  const [search, setSearch] = useState("");
+  const [userData, setUserData] = useState({
+    contactNo: "",
+    institute: "",
+  });
 
   const institutes = [
     "Global Institute of Technology(GIT)",
@@ -38,46 +41,43 @@ const Form = () => {
     "Vivekananda Global University",
     "Poddar Group of Institutions",
     "Rajdhani Engineering College",
-  ]
+  ];
 
-  const filteredInstitutes = institutes.filter((institute) =>
-    institute.toLowerCase().includes(search.toLowerCase())
-  )
-
-  const [userData, setUserData] = useState({
-    contactNo: "",
-    institute: "",
-  })
-
+  const filteredInstitutes = institutes.filter((inst) =>
+    inst.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
+
+  const handleInstituteChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    setUserData({ ...userData, institute: value });
+  };
 
   const handleInstituteSelect = (inst) => {
-    setSelectedInstitute(inst);
-    setUserData({
-      ...userData,
-      institute: inst,
-    })
-    setSearch("");
-  }
+    setSearch(inst);
+    setUserData({ ...userData, institute: inst });
+  };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const seatBooking = () => {
-    navigate("/seatBooking", { state : userData})
-  }
+    navigate("/seatBooking", { state: userData });
+  };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!userData.contactNo || !userData.institute) {
-          alert("Please fill in all the fields before submitting.");
-          return;
-        }
-  }
+      alert("Please fill in all the fields before submitting.");
+      return;
+    }
+    seatBooking();
+  };
 
   return (
     <Wrapper>
@@ -85,6 +85,7 @@ const Form = () => {
       <div className="seat-book-form">
         <h2>Seat Book Registration Form</h2>
         <div className="details">
+          {/* Contact Number */}
           <div className="user-info">
             <span>Contact Number</span>
             <img src={star} alt="Star" />
@@ -98,6 +99,8 @@ const Form = () => {
             pattern="[0-9]{10}"
             required
           />
+
+          {/* Institute Selection */}
           <div className="user-info">
             <span>Institute</span>
             <img src={star} alt="Star" />
@@ -106,14 +109,11 @@ const Form = () => {
             id="institute"
             name="institute"
             type="text"
-            value={selectedInstitute || search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setSelectedInstitute("");
-            }}
+            value={search}
+            onChange={handleInstituteChange}
             required
           />
-          {search && (
+          {search && filteredInstitutes.length > 0 && (
             <ul className="dropdown">
               {filteredInstitutes.map((inst, index) => (
                 <li key={index} onClick={() => handleInstituteSelect(inst)}>
@@ -123,21 +123,19 @@ const Form = () => {
             </ul>
           )}
 
-          <input id="submit"
+          {/* Submit Button */}
+          <input
+            id="submit"
             type="button"
-            name = "Submit"
-            value = "Submit"
+            name="Submit"
+            value="Submit"
             required
-            onClick={() => {
-              handleSubmit()
-              if (userData.contactNo && userData.institute) {
-                seatBooking()
-              }
-            }} />
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;
