@@ -44,14 +44,14 @@ const SeatBooking = () => {
         const input = pdfRef.current
         html2canvas(input, {
             useCORS: true,
-            backgroundColor: getComputedStyle(document.body).backgroundColor, 
+            backgroundColor: getComputedStyle(document.body).backgroundColor,
             scale: 2,
-            windowWidth: document.documentElement.scrollWidth, 
+            windowWidth: document.documentElement.scrollWidth,
             windowHeight: document.documentElement.scrollHeight,
             scrollX: 0,
             scrollY: 0,
             x: input.getBoundingClientRect().left,
-            y: input.getBoundingClientRect().top, 
+            y: input.getBoundingClientRect().top,
         }).then((canvas) => {
             const imgData = canvas.toDataURL("image/png")
             const pdf = new jsPDF('p', 'mm', 'a4', true)
@@ -77,7 +77,7 @@ const SeatBooking = () => {
             }}>
                 <div className='logo'>
                     <img src={logo} alt="The Codeup Show" className='logoImage' />
-                    <img src={download} alt="Download" onClick={downloadPDF} className='download'/>
+                    <img src={download} alt="Download" onClick={downloadPDF} className='download' />
                 </div>
                 <div className='seat-confirmation'>
                     <img src={rightclick} alt="Right Click Icon" />

@@ -71,25 +71,38 @@ const Form = () => {
     navigate("/seatBooking", { state: userData })
   }
 
-  const handleSubmit = () => {
-    if (!userData.contactNo || !userData.institute) {
+  const handleSubmit = async () => {
+    if (!userData.email || !userData.contactNo || !userData.institute) {
       alert("Please fill in all the fields before submitting.")
-      return;
-    }
-  
-    const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || []
-  
-    if (registeredUsers.includes(userData.contactNo)) {
-      alert("You have already registered! Registration cannot be processed further.")
       return
     }
   
-    registeredUsers.push(userData.contactNo);
-    localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers))
+    console.log("Submitting userData:", userData)
   
-    seatBooking()
+    try {
+      const response = await fetch("http://localhost:5000/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      })
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        console.error("Error response from server:", data)
+        alert(data.message || "An error occurred. Please try again.")
+        return
+      }
+  
+      alert("Registration successful!")
+      seatBooking()
+    } catch (error) {
+      console.error("Error during registration:", error)
+      alert("Something went wrong. Please try again later.")
+    }
   }
-  
 
   return (
     <Wrapper>
@@ -97,6 +110,19 @@ const Form = () => {
       <div className="seat-book-form">
         <h2>Seat Book Registration Form</h2>
         <div className="details">
+          <div className="user-info">
+            <span>E-Mail</span>
+            <img src={star} alt="Star" />
+          </div>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={userData.email}
+            onChange={handleChange}
+            required
+          />
+
           <div className="user-info">
             <span>Contact Number</span>
             <img src={star} alt="Star" />

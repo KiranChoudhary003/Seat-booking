@@ -45,10 +45,33 @@ color : white;
 .user-info{ 
     display : flex;
     img{
-        width : 2%;
-        height : 2%;
+        width : 8px;
+        height : 8px;
+        margin-left: 5px;
     }
 }
+    .dropdown {
+      list-style: none;
+      padding: 0;
+      margin: 5px 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .dropdown li {
+      background: rgb(180, 155, 228);
+      color: white;
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .dropdown li:active {
+      transform: scale(0.98);
+    }
 }
 `
 export default Wrapper
