@@ -80,7 +80,7 @@ const Form = () => {
     console.log("Submitting userData:", userData)
   
     try {
-      const response = await fetch("http://localhost:5000/bookings", {
+      const response = await fetch("https://seat-booking-backend-sand.vercel.app/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
